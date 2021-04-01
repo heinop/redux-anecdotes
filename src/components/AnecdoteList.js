@@ -27,7 +27,12 @@ const Anecdote = ({ anecdote }) => {
 }
 
 const AnecdoteList = (props) => {
-  const anecdotes = useSelector(state => state.anecdotes)
+  const anecdotes = useSelector(({ filter, anecdotes}) => {
+    if (filter) {
+      return anecdotes.filter(anecdote => anecdote.content.toUpperCase().includes(filter.toUpperCase()))
+    }
+    return anecdotes
+  })
 
   return (
     <div>
