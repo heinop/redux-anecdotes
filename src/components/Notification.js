@@ -9,8 +9,11 @@ const Notification = () => {
     padding: 10,
     borderWidth: 1
   }
+  const invisible = {
+    display: 'none'
+  }
   return (
-    <div style={style}>
+    <div style={notification !== '' ? style : invisible}>
       {notification}
     </div>
   )
