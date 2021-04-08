@@ -1,10 +1,14 @@
-const defaultNote = 'Wellcome to Anecdotes!'
+const defaultNote = { 
+  message:'Wellcome to Anecdotes!',
+  id: null
+}
 
-const setNotification = (note) => {
+const setNotification = (message, id) => {
   return {
     type: 'SET_NOTE',
     data: {
-      note: note
+      message,
+      id
     }
   }
 }
@@ -15,10 +19,10 @@ const removeNotification = () => {
   }
 }
 
-export const showNotification = (content, time = 5000) => {
+export const showNotification = (message, time = 5000) => {
   return async dispatch => {
-    dispatch(setNotification(content))
-    setTimeout(() => dispatch(removeNotification()), time)
+    let timeoutId = setTimeout(() => dispatch(removeNotification()), time)
+    dispatch(setNotification(message, timeoutId))
   }
 }
 
@@ -27,9 +31,15 @@ const notificationRouter = (state = defaultNote, action) => {
 
   switch (action.type) {
     case 'SET_NOTE':
-      return action.data.note
+      if (state.id) {
+        clearTimeout(state.id)
+      }
+      return action.data
     case 'REMOVE_NOTE':
-      return ''
+      return {
+        message: '',
+        id: null
+      }
     default:
       return state
   }
