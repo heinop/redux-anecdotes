@@ -1,6 +1,6 @@
 const defaultNote = 'Wellcome to Anecdotes!'
 
-export const setNotification = (note) => {
+const setNotification = (note) => {
   return {
     type: 'SET_NOTE',
     data: {
@@ -9,9 +9,16 @@ export const setNotification = (note) => {
   }
 }
 
-export const removeNotification = () => {
+const removeNotification = () => {
   return {
     type: 'REMOVE_NOTE'
+  }
+}
+
+export const showNotification = (content, time = 5000) => {
+  return async dispatch => {
+    dispatch(setNotification(content))
+    setTimeout(() => dispatch(removeNotification()), time)
   }
 }
 
